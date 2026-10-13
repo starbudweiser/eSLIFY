@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>eSLIFY — aperçu</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <div class="stage-bar">
+    <span class="sc-eyebrow">Aperçu web</span>
+    <span class="stage-note">Les plugins déposés sont analysés pour de vrai, en lecture seule. Aucun fichier n'est modifié.</span>
+    <span class="stage-spacer"></span>
+    <button class="sc-btn sc-btn--secondary" id="samples">Charger des exemples</button>
+    <button class="sc-btn sc-btn--secondary" id="theme">Thème clair</button>
+  </div>
+
+  <main class="window" id="window" aria-label="Fenêtre eSLIFY">
+    <div class="titlebar">
+      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="titlebar__name"><img src="/icon.svg" alt="" width="16" height="16" />eSLIFY</span>
+    </div>
+
+    <div class="content">
+      <header class="header-bar">
+        <div class="title">eSLIFY</div>
+        <div class="meta">Marque des plugins comme ESL (light master) après avoir vérifié leurs FormID.</div>
+      </header>
+
+      <div class="sc-row toolbar">
+        <button class="sc-btn sc-btn--action btn-compact" id="add-files">Ajouter des plugins</button>
+        <button class="sc-btn sc-btn--secondary" id="add-dir">Ajouter un dossier</button>
+        <button class="sc-btn sc-btn--secondary" id="clear">Vider la liste</button>
+        <input type="file" id="pick-files" accept=".esp,.esm,.esl" multiple hidden />
+        <input type="file" id="pick-dir" webkitdirectory hidden />
+      </div>
+
+      <div class="tree" id="drop">
+        <table>
+          <thead>
+            <tr><th>Plugin</th><th>Statut</th><th>Nouveaux enr.</th><th>FormID propres</th><th class="grow">Dossier</th></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <div class="drop-hint" id="drop-hint">Déposez des fichiers .ESP, .ESM, .ESL ou un dossier.</div>
+      </div>
+
+      <p class="reason" id="reason" role="status">Ajoutez ou glissez-déposez des fichiers .ESP, .ESM, .ESL ou un dossier.</p>
+
+      <div class="sc-row bottom">
+        <label class="check" id="backup-label">
+          <input type="checkbox" id="backup" checked />
+          <span class="sc-choice sc-choice--check" aria-hidden="true">✓</span>
+          Créer une copie de sauvegarde (.bak) avant modification
+        </label>
+        <span class="stage-spacer"></span>
+        <button class="sc-btn sc-btn--primary" id="apply" disabled>MARQUER ESL</button>
+      </div>
+    </div>
+
+    <div class="sc-scrim modal" id="modal" hidden>
+      <div class="sc-dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+        <h2 class="sc-dialog__title" id="dlg-title">eSLIFY</h2>
+        <p class="sc-dialog__body" id="dlg-body"></p>
+        <div class="sc-dialog__actions">
+          <button class="sc-btn sc-btn--secondary" id="dlg-no">Non</button>
+          <button class="sc-btn sc-btn--primary" id="dlg-yes">Oui</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

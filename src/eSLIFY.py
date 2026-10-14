@@ -16,8 +16,6 @@ APP_NAME = "eSLIFY"
 EXTS = (".esp", ".esm", ".esl")
 # Icône : à côté du script (assets/) ou dans le bundle PyInstaller (sys._MEIPASS).
 ICON = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent.parent)) / "assets" / "icon.png"
-# Taille des textes (zoom Socle, socle_qt.Zoom) : 1,25 par défaut, le corps passe de 12 à 15 px.
-ZOOM_DEFAULT = 1.25
 
 
 class ESLifyApp(QWidget):
@@ -43,10 +41,6 @@ class ESLifyApp(QWidget):
         hl.addWidget(socle_qt.role(QLabel(APP_NAME), "title"))
         hl.addWidget(socle_qt.role(QLabel("Marque des plugins comme ESL (light master) après avoir vérifié leurs FormID."), "meta"))
         hh.addLayout(hl, 1)
-        # ⌥/⌘ + − 0 et boutons A− A+ (Socle)
-        self.zoom = socle_qt.Zoom(self, default=ZOOM_DEFAULT)
-        self.zoom.changed.connect(self._zoom_changed)
-        hh.addWidget(self.zoom.controls())
         lay.addWidget(head)
 
         row = QHBoxLayout()
@@ -147,10 +141,6 @@ class ESLifyApp(QWidget):
         it.setForeground(4, QBrush(QColor(socle_qt.c("text-subtle"))))
         return it
 
-    def _zoom_changed(self, value: float):
-        self.settings.setValue("zoom", value)
-        self._rebuild()  # polices mono des colonnes fixées à la création des lignes
-
     def _rebuild(self):
         selected = {it.data(0, Qt.ItemDataRole.UserRole) for it in self.tree.selectedItems()}
         self.tree.clear()
@@ -224,7 +214,6 @@ if __name__ == "__main__":
         app.setWindowIcon(QIcon(str(ICON)))
     socle_qt.apply(app)
     settings = QSettings(APP_NAME, APP_NAME)
-    socle_qt.set_scale(app, float(settings.value("zoom", ZOOM_DEFAULT)))
     w = ESLifyApp(settings)
     w.show()
     w.add_paths(sys.argv[1:])

@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QSettings, Qt
 from PyQt6.QtGui import QBrush, QColor, QIcon
 from PyQt6.QtWidgets import (
     QAbstractItemView, QApplication, QCheckBox, QFileDialog, QFrame, QHBoxLayout, QLabel, QMessageBox,
@@ -16,11 +16,14 @@ APP_NAME = "eSLIFY"
 EXTS = (".esp", ".esm", ".esl")
 # Icône : à côté du script (assets/) ou dans le bundle PyInstaller (sys._MEIPASS).
 ICON = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent.parent)) / "assets" / "icon.png"
+# Taille des textes (zoom Socle, socle_qt.Zoom) : 1,25 par défaut, le corps passe de 12 à 15 px.
+ZOOM_DEFAULT = 1.25
 
 
 class ESLifyApp(QWidget):
-    def __init__(self):
+    def __init__(self, settings: QSettings):
         super().__init__()
+        self.settings = settings
         self.setWindowTitle(APP_NAME)
         self.resize(860, 560)
         self.setAcceptDrops(True)
@@ -33,17 +36,23 @@ class ESLifyApp(QWidget):
 
         head = QFrame()
         head.setObjectName("HeaderBar")
-        hl = QVBoxLayout(head)
-        hl.setContentsMargins(m("space-3"), m("space-2"), m("space-3"), m("space-2"))
+        hh = QHBoxLayout(head)
+        hh.setContentsMargins(m("space-3"), m("space-2"), m("space-3"), m("space-2"))
+        hl = QVBoxLayout()
         hl.setSpacing(2)
         hl.addWidget(socle_qt.role(QLabel(APP_NAME), "title"))
         hl.addWidget(socle_qt.role(QLabel("Marque des plugins comme ESL (light master) après avoir vérifié leurs FormID."), "meta"))
+        hh.addLayout(hl, 1)
+        # ⌥/⌘ + − 0 et boutons A− A+ (Socle)
+        self.zoom = socle_qt.Zoom(self, default=ZOOM_DEFAULT)
+        self.zoom.changed.connect(self._zoom_changed)
+        hh.addWidget(self.zoom.controls())
         lay.addWidget(head)
 
         row = QHBoxLayout()
         row.setSpacing(m("space-2"))
         self.btn_files = socle_qt.variant(QPushButton("Ajouter des plugins"), "action")
-        self.btn_files.setStyleSheet(f"min-height: {m('size-control') - 2}px; max-height: {m('size-control') - 2}px;")
+        self.btn_files.setStyleSheet(f"min-height: {m('size-control') - 2}px;")
         self.btn_files.clicked.connect(self.pick_files)
         self.btn_dir = QPushButton("Ajouter un dossier")
         self.btn_dir.clicked.connect(self.pick_dir)
@@ -138,6 +147,18 @@ class ESLifyApp(QWidget):
         it.setForeground(4, QBrush(QColor(socle_qt.c("text-subtle"))))
         return it
 
+    def _zoom_changed(self, value: float):
+        self.settings.setValue("zoom", value)
+        self._rebuild()  # polices mono des colonnes fixées à la création des lignes
+
+    def _rebuild(self):
+        selected = {it.data(0, Qt.ItemDataRole.UserRole) for it in self.tree.selectedItems()}
+        self.tree.clear()
+        for res in self.results.values():
+            it = self._item(res)
+            self.tree.addTopLevelItem(it)
+            it.setSelected(res.path in selected)
+
     def clear(self):
         self.results.clear()
         self.tree.clear()
@@ -187,8 +208,7 @@ class ESLifyApp(QWidget):
             except Exception as e:
                 errors.append(f"{r.path.name} : {e}")
         self.tree.clear()
-        for res in self.results.values():
-            self.tree.addTopLevelItem(self._item(res))
+        self._rebuild()
         self.refresh_button()
         text = f"{done} plugin(s) marqué(s) ESL."
         socle_qt.status(self.reason, "danger" if errors else "success")
@@ -203,7 +223,9 @@ if __name__ == "__main__":
     if ICON.is_file():
         app.setWindowIcon(QIcon(str(ICON)))
     socle_qt.apply(app)
-    w = ESLifyApp()
+    settings = QSettings(APP_NAME, APP_NAME)
+    socle_qt.set_scale(app, float(settings.value("zoom", ZOOM_DEFAULT)))
+    w = ESLifyApp(settings)
     w.show()
     w.add_paths(sys.argv[1:])
     sys.exit(app.exec())

@@ -28,6 +28,6 @@ rm -rf "$ROOT/$APP_NAME.app"
   "$SRC"
 
 [ -d "$TMP/dist/$APP_NAME.app" ] || { echo "Erreur : app non générée." >&2; exit 1; }
-"$(cd "$ROOT/.." && pwd)/_tools/sign_app.sh" "$TMP/dist/$APP_NAME.app"  # signature stable (_tools)
+"$(cd "$ROOT/.." && pwd)/_tools/sign_app.sh" "$TMP/dist/$APP_NAME.app" 1.0.0  # signature stable (_tools)
 mv "$TMP/dist/$APP_NAME.app" "$ROOT/$APP_NAME.app"
 echo "OK : $ROOT/$APP_NAME.app"

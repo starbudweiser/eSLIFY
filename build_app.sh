@@ -28,6 +28,14 @@ rm -rf "$ROOT/$APP_NAME.app"
   "$SRC"
 
 [ -d "$TMP/dist/$APP_NAME.app" ] || { echo "Erreur : app non générée." >&2; exit 1; }
-"$(cd "$ROOT/.." && pwd)/_tools/sign_app.sh" "$TMP/dist/$APP_NAME.app" 1.0.0  # signature stable (_tools)
+# Signature stable avec _tools/sign_app.sh (certificat local) ; sans lui (compilation depuis
+# le dépôt GitHub seul), signature ad hoc pour que l'appli se lance quand même.
+SIGN_APP="$(cd "$ROOT/.." && pwd)/_tools/sign_app.sh"
+if [ -x "$SIGN_APP" ]; then
+    "$SIGN_APP" "$TMP/dist/$APP_NAME.app" 1.0.0
+else
+    echo "_tools/sign_app.sh absent : signature ad hoc."
+    codesign --force --deep --sign - "$TMP/dist/$APP_NAME.app"
+fi
 mv "$TMP/dist/$APP_NAME.app" "$ROOT/$APP_NAME.app"
 echo "OK : $ROOT/$APP_NAME.app"

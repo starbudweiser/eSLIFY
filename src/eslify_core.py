@@ -10,6 +10,8 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
+from i18n import L
+
 FLAG_ESL = 0x0200
 ESL_MAX_OBJECT = 0xFFF       # dernier identifiant d'objet autorisé dans un plugin léger
 ESL_MIN_OBJECT_OLD = 0x800   # avant l'en-tête 1.71, les identifiants commencent à 0x800
@@ -79,7 +81,7 @@ def check_eligibility(plugin_path: str | Path) -> Eligibility:
     res = Eligibility(path=path)
     data = path.read_bytes()
     if data[:4] != b"TES4":
-        res.reason = "Ce n'est pas un plugin Skyrim (en-tête TES4 absent)."
+        res.reason = L("Ce n'est pas un plugin Skyrim (en-tête TES4 absent).")
         return res
     size, res.flags = struct.unpack_from("<II", data, 4)
     res.already_esl = bool(res.flags & FLAG_ESL)
@@ -112,16 +114,16 @@ def check_eligibility(plugin_path: str | Path) -> Eligibility:
         p += 24 + sz
 
     if res.already_esl:
-        res.eligible, res.reason = False, "Déjà marqué ESL."
+        res.eligible, res.reason = False, L("Déjà marqué ESL.")
     elif res.max_object is not None and res.max_object > ESL_MAX_OBJECT:
-        res.reason = (f"FormID propre trop élevé ({res.max_object:06X} > {ESL_MAX_OBJECT:03X}). "
-                      "Compactez les FormID dans xEdit avant de le marquer ESL.")
+        res.reason = L("FormID propre trop élevé ({max} > {limit}). Compactez les FormID dans xEdit avant de le marquer ESL.",
+                       max=f"{res.max_object:06X}", limit=f"{ESL_MAX_OBJECT:03X}")
     elif (res.min_object is not None and res.min_object < ESL_MIN_OBJECT_OLD
           and res.hedr_version < HEDR_VERSION_171):
-        res.reason = (f"FormID propre sous 0x800 ({res.min_object:06X}) avec un en-tête {res.hedr_version} : "
-                      "il faut un en-tête 1.71 (xEdit) pour que le jeu l'accepte.")
+        res.reason = L("FormID propre sous 0x800 ({min}) avec un en-tête {version} : il faut un en-tête 1.71 (xEdit) pour que le jeu l'accepte.",
+                       min=f"{res.min_object:06X}", version=res.hedr_version)
     else:
-        res.eligible, res.reason = True, "Éligible."
+        res.eligible, res.reason = True, L("Éligible.")
     return res
 
 

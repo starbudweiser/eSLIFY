@@ -153,7 +153,7 @@ class ESLifyApp(QWidget):
         if r.already_esl:
             status, token = L("Déjà ESL"), "text-muted"
         elif r.eligible:
-            status, token = L("Éligible"), "success"
+            status, token = L("Éligible"), "warning" if r.dependents else "success"
         else:
             status, token = L("Non éligible"), "danger"
         span = "—" if r.max_object is None else f"{r.min_object:03X} – {r.max_object:03X}"

@@ -52,6 +52,14 @@ TR = {
         "Own FormID below 0x800 ({min}) with header {version}: the game needs a 1.71 header (xEdit) to accept it.",
         "FormID proprio sotto 0x800 ({min}) con intestazione {version}: serve un'intestazione 1.71 (xEdit) perché il gioco lo accetti.",
         "FormID propio por debajo de 0x800 ({min}) con cabecera {version}: el juego necesita una cabecera 1.71 (xEdit) para aceptarlo."),
+    "Ajoute {n} cellule(s) ou worldspace(s) : le jeu gère mal les nouvelles cellules d'un plugin ESL (modifications perdues, objets qui disparaissent).": (
+        "Adds {n} cell(s) or worldspace(s): the game handles new cells in an ESL plugin badly (lost changes, disappearing objects).",
+        "Aggiunge {n} cella/e o worldspace: il gioco gestisce male le nuove celle di un plugin ESL (modifiche perse, oggetti che spariscono).",
+        "Añade {n} celda(s) o worldspace(s): el juego gestiona mal las celdas nuevas de un plugin ESL (cambios perdidos, objetos que desaparecen)."),
+    "Éligible, mais {n} plugin(s) en dépendent ({names}) : ne compactez plus ses FormID après le marquage, ils casseraient.": (
+        "Eligible, but {n} plugin(s) depend on it ({names}): do not compact its FormIDs after flagging, they would break.",
+        "Idoneo, ma {n} plugin ne dipendono ({names}): non compattare più i suoi FormID dopo il contrassegno, si romperebbero.",
+        "Apto, pero {n} plugin(s) dependen de él ({names}): no compactes sus FormID después de marcarlo, se romperían."),
     "Éligible.": ("Eligible.", "Idoneo.", "Apto."),
     # ------------------------------------------------------------ marquage
     "MARQUER ESL": ("FLAG ESL", "CONTRASSEGNA ESL", "MARCAR ESL"),

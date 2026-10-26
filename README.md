@@ -23,6 +23,15 @@ Light plugins (ESL-flagged) don't count toward the 254-plugin limit. But flaggin
 - Optional **.bak backup** of each file before modification.
 - Interface in **English, French, Italian and Spanish** (follows your Mac's language; can be changed in the app).
 
+### What's new in 1.1.0
+
+- Plugins that add cells or worldspaces are now refused: the game handles new cells in an ESL plugin badly (lost changes, disappearing objects).
+- Eligible plugins that other plugins in the same folder depend on are flagged in orange: do not compact their FormIDs after flagging, the dependent plugins would break.
+
+### Updates
+
+From version 1.1.0 the app checks once a day whether a newer release exists on GitHub and offers to open the Nexus page, remind you later or skip that version. Nothing is downloaded or installed automatically. The full history is in [CHANGELOG.md](CHANGELOG.md).
+
 ### Screenshots
 
 ![Eligibility check of a whole Data folder](docs/screenshots/02_check.png)
@@ -78,6 +87,15 @@ Les plugins légers (drapeau ESL) ne comptent pas dans la limite de 254 plugins.
 - Marque en un clic les plugins éligibles de la sélection (ou de toute la liste).
 - **Sauvegarde .bak** facultative de chaque fichier avant modification.
 - Interface en **français, anglais, italien et espagnol** (suit la langue du Mac ; modifiable dans l'appli).
+
+### Nouveautés de la 1.1.0
+
+- Les plugins qui ajoutent des cellules ou des worldspaces sont maintenant refusés : le jeu gère mal les nouvelles cellules d'un plugin ESL (modifications perdues, objets qui disparaissent).
+- Les plugins éligibles dont d'autres plugins du même dossier dépendent sont signalés en orange : ne compactez plus leurs FormID après le marquage, les plugins dépendants casseraient.
+
+### Mises à jour
+
+À partir de la version 1.1.0, l'appli vérifie une fois par jour si une version plus récente existe sur GitHub et propose d'ouvrir la page Nexus, de rappeler plus tard ou d'ignorer cette version. Rien n'est téléchargé ni installé automatiquement. L'historique complet est dans [CHANGELOG.md](CHANGELOG.md).
 
 ### Captures d'écran
 

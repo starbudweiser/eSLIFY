@@ -11,6 +11,8 @@ from PyQt6.QtWidgets import (
 
 import eslify_core as core
 import socle_qt
+import update_check
+from i18n import get_lang
 from i18n import L
 from lang_button import LangButton, init_lang
 
@@ -241,5 +243,6 @@ if __name__ == "__main__":
     init_lang(settings)
     w = ESLifyApp(settings)
     w.show()
+    update_check.start_qt(w, "eSLIFY", lang=get_lang)  # nouvelle version ? (au plus une fois par jour)
     w.add_paths(sys.argv[1:])
     sys.exit(app.exec())

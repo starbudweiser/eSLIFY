@@ -239,6 +239,7 @@ if __name__ == "__main__":
     if ICON.is_file():
         app.setWindowIcon(QIcon(str(ICON)))
     socle_qt.apply(app)
+    socle_qt.brand(app, "eSLIFY", "#2e8ad0")  # « e » dans le bleu du logo
     settings = QSettings(APP_NAME, APP_NAME)
     init_lang(settings)
     w = ESLifyApp(settings)

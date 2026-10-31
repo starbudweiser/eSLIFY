@@ -5,6 +5,11 @@ tests/test_i18n.py).
 """
 
 TR = {
+    "Fichier introuvable : {path}": ("File not found: {path}", "File non trovato: {path}", "Archivo no encontrado: {path}"),
+    "{name} n'est pas un plugin Skyrim valide (attendu TES4, trouvé {sig}).": (
+        "{name} is not a valid Skyrim plugin (expected TES4, found {sig}).",
+        "{name} non è un plugin di Skyrim valido (atteso TES4, trovato {sig}).",
+        "{name} no es un plugin de Skyrim válido (se esperaba TES4, encontrado {sig})."),
     # ------------------------------------------------------------ fenêtre
     "Marque des plugins comme ESL (light master) après avoir vérifié leurs FormID.": (
         "Flags plugins as ESL (light master) after checking their FormIDs.",
@@ -16,7 +21,7 @@ TR = {
     "Plugins Skyrim": ("Skyrim plugins", "Plugin di Skyrim", "Plugins de Skyrim"),
     "Plugin": ("Plugin", "Plugin", "Plugin"),
     "Statut": ("Status", "Stato", "Estado"),
-    "Nouveaux enr.": ("New records", "Nuovi record", "Registros nuevos"),
+    "Nouveaux enr.": ("New records", "Nuovi record", "Nuevos reg."),
     "FormID propres": ("Own FormIDs", "FormID propri", "FormID propios"),
     "Dossier": ("Folder", "Cartella", "Carpeta"),
     "Créer une copie de sauvegarde (.bak) avant modification": (

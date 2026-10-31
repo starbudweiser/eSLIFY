@@ -30,13 +30,13 @@ def inspect_and_flag_esl(plugin_path: str | Path, apply_fix: bool = False) -> di
     """
     path = Path(plugin_path)
     if not path.is_file():
-        raise FileNotFoundError(f"Fichier introuvable : {path}")
+        raise FileNotFoundError(L("Fichier introuvable : {path}", path=path))
 
     with path.open("r+b" if apply_fix else "rb") as f:
         # Lecture de la signature du premier record (doit être TES4)
         sig = f.read(4)
         if sig != b"TES4":
-            raise ValueError(f"{path.name} n'est pas un plugin Skyrim valide (attendu TES4, trouvé {sig}).")
+            raise ValueError(L("{name} n'est pas un plugin Skyrim valide (attendu TES4, trouvé {sig}).", name=path.name, sig=sig))
 
         # Offset 4: data_size (4 octets uint32)
         # Offset 8: flags (4 octets uint32)

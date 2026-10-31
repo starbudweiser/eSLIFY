@@ -22,6 +22,9 @@ ICON_ARGS=()
 [ -f "$ROOT/assets/icon.png" ] && ICON_ARGS+=(--add-data "$ROOT/assets/icon.png:assets")
 
 rm -rf "$ROOT/$APP_NAME.app"
+# Lanceur PyInstaller compilé depuis les sources, contre les faux positifs antivirus (absent hors de ce dossier d'outils : lanceur standard).
+PYI_SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/_tools/pyinstaller_source.sh"
+if [ -x "$PYI_SRC" ]; then "$PYI_SRC" "$PY"; fi
 "$PY" -m PyInstaller --noconfirm --clean --windowed --name "$APP_NAME" ${ICON_ARGS[@]+"${ICON_ARGS[@]}"} \
   --osx-bundle-identifier "local.stephan.eslify" \
   --distpath "$TMP/dist" --workpath "$TMP/work" --specpath "$TMP/spec" \
@@ -32,7 +35,7 @@ rm -rf "$ROOT/$APP_NAME.app"
 # le dépôt GitHub seul), signature ad hoc pour que l'appli se lance quand même.
 SIGN_APP="$(cd "$ROOT/.." && pwd)/_tools/sign_app.sh"
 if [ -x "$SIGN_APP" ]; then
-    "$SIGN_APP" "$TMP/dist/$APP_NAME.app" 1.1.0
+    "$SIGN_APP" "$TMP/dist/$APP_NAME.app" 1.3.0
 else
     echo "_tools/sign_app.sh absent : signature ad hoc."
     codesign --force --deep --sign - "$TMP/dist/$APP_NAME.app"

@@ -2,19 +2,21 @@
 
 Notes de version / release notes (EN + FR). Translations in IT and ES: see the Nexus Mods page.
 
-## 1.1.0
+## 1.3.0
 
 **English**
 
-- Plugins that add cells or worldspaces are now refused: the game handles new cells in an ESL plugin badly (lost changes, disappearing objects).
-- Eligible plugins that other plugins in the same folder depend on are flagged in orange: do not compact their FormIDs after flagging, the dependent plugins would break.
-- New-version notice: the app checks the latest GitHub release once a day and offers to open the Nexus page, remind you later or skip that version. Nothing is downloaded or installed.
+- Signed with a Developer ID and notarized by Apple: macOS now opens the app without a security warning.
+- The app's launcher is now compiled from source when the app is built, instead of using PyInstaller's generic prebuilt launcher, which antivirus scanners tend to flag. No change in features.
+- The first letter of the app's name now uses the colour of its logo everywhere it appears.
+- Version number aligned across the Skyrim Mac Toolkit.
 
 **Français**
 
-- Les plugins qui ajoutent des cellules ou des worldspaces sont maintenant refusés : le jeu gère mal les nouvelles cellules d'un plugin ESL (modifications perdues, objets qui disparaissent).
-- Les plugins éligibles dont d'autres plugins du même dossier dépendent sont signalés en orange : ne compactez plus leurs FormID après le marquage, les plugins dépendants casseraient.
-- Avertissement de nouvelle version : l'appli consulte la dernière release GitHub une fois par jour et propose d'ouvrir la page Nexus, de rappeler plus tard ou d'ignorer cette version. Rien n'est téléchargé ni installé.
+- Signée avec un certificat Developer ID et notarisée par Apple : macOS ouvre désormais l'appli sans avertissement de sécurité.
+- Le lanceur de l'appli est maintenant compilé depuis les sources à la construction de l'appli, au lieu du lanceur générique précompilé de PyInstaller, souvent signalé par les antivirus. Aucun changement de fonctionnalités.
+- La première lettre du nom de l'appli prend la couleur de son logo partout où il est écrit.
+- Numéro de version commun à tout le Skyrim Mac Toolkit.
 
 <!-- gen_changelogs : entrées ci-dessous conservées -->
 

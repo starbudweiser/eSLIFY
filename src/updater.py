@@ -219,6 +219,16 @@ def build_notes(releases: list[Release], lang: str) -> str:
     return "\n\n".join(blocks)
 
 
+def branded(text: str, name: str, color: str | None) -> str:
+    """Texte HTML échappé ; la première lettre minuscule du nom de l'appli prend la couleur de son logo."""
+    out = html.escape(text)
+    m = re.search(r"[a-z]", name)
+    if color and m and name in text:
+        i = m.start()
+        out = out.replace(html.escape(name), f'<span style="color:{html.escape(color)}">{html.escape(name[i])}</span>'.join([html.escape(name[:i]), html.escape(name[i + 1:])]), 1)
+    return out
+
+
 def md_to_html(md: str) -> str:
     """Mini rendu Markdown (titres, puces, gras, code) pour la fenêtre pywebview."""
     out, in_list = [], False
@@ -743,7 +753,7 @@ _WEB_CSS = ("#sk-upd{position:fixed;inset:0;z-index:99999;display:flex;align-ite
             "max-height:86vh;display:flex;flex-direction:column;padding:22px 24px;gap:10px;box-shadow:0 12px 40px rgba(0,0,0,.5)}"
             "#sk-upd h2{margin:0;color:#fff;font-size:17px}#sk-upd .eyebrow{color:#aaa;font-size:11px;text-transform:uppercase;letter-spacing:.06em}"
             "#sk-upd .notes{overflow:auto;background:#1a1a1a;border:1px solid #333;border-radius:6px;padding:4px 14px;min-height:120px}"
-            "#sk-upd h3{margin:12px 0 4px;color:#fff;font-size:13px}#sk-upd ul{margin:4px 0 8px;padding-left:18px}#sk-upd code{background:#333;padding:0 4px;border-radius:3px}"
+            "#sk-upd h3{margin:12px 0 4px;color:#fff;font-size:14px;font-weight:600}#sk-upd ul{margin:4px 0 8px;padding-left:18px;list-style:disc}#sk-upd li{margin:3px 0}#sk-upd p{margin:6px 0}#sk-upd code{background:#333;padding:0 4px;border-radius:3px}"
             "#sk-upd .row{display:flex;gap:8px;align-items:center}#sk-upd .sp{flex:1}"
             "#sk-upd button{background:#333;color:#ddd;border:1px solid #707070;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}"
             "#sk-upd button.primary{background:#0369a1;border-color:#0369a1;color:#fff}#sk-upd button.tert{background:none;border-color:transparent;color:#aaa}"
@@ -751,8 +761,9 @@ _WEB_CSS = ("#sk-upd{position:fixed;inset:0;z-index:99999;display:flex;align-ite
             "#sk-upd .bar i{display:block;height:100%;width:0;background:#0ea5e9}#sk-upd .st{color:#aaa;min-height:1.2em}")
 
 
-def start_webview(window, repo: str, lang=None, page: str | None = None):
-    """pywebview : même fenêtre en HTML, dans la fenêtre de l'appli (window.evaluate_js + window.expose). Renvoie le contrôleur."""
+def start_webview(window, repo: str, lang=None, page: str | None = None, brand: str | None = None):
+    """pywebview : même fenêtre en HTML, dans la fenêtre de l'appli (window.evaluate_js + window.expose). Renvoie le contrôleur.
+    `brand` : couleur du logo, pour la lettre minuscule du nom de l'appli (règle Socle)."""
     engine = Engine(repo, lang)
 
     class Controller:
@@ -791,7 +802,7 @@ def start_webview(window, repo: str, lang=None, page: str | None = None):
         def _render(self, plan):
             t = texts(engine.lang)
             data = {
-                "title": t["title"], "body": t["body"].format(app=plan.app_name, new=plan.target.version, cur=plan.current),
+                "title": t["title"], "body": branded(t["body"].format(app=plan.app_name, new=plan.target.version, cur=plan.current), plan.app_name, brand),
                 "heading": t["notes"].format(cur=plan.current), "notes": md_to_html(plan.notes(engine.lang)) or f"<p>{html.escape(t['no_notes'])}</p>",
                 "install": t["install"], "later": t["later"], "skip": t["skip"], "page": t["open_page"],
             }
@@ -838,7 +849,7 @@ _WEB_JS = r"""function(d, css){
    '<button id="sk-page" style="display:none"></button><button id="sk-later"></button><button class="primary" id="sk-install"></button></div></div>';
   document.body.appendChild(o);
   var q=function(x){return o.querySelector(x)};
-  q('h2').textContent=d.title; q('.body').textContent=d.body; q('.eyebrow').textContent=d.heading; q('.notes').innerHTML=d.notes;
+  q('h2').textContent=d.title; q('.body').innerHTML=d.body; q('.eyebrow').textContent=d.heading; q('.notes').innerHTML=d.notes;
   q('#sk-skip').textContent=d.skip; q('#sk-later').textContent=d.later; q('#sk-install').textContent=d.install; q('#sk-page').textContent=d.page;
   var close=function(){o.remove(); var c=document.getElementById('sk-upd-css'); if(c) c.remove();};
   q('#sk-later').onclick=close;

@@ -3,7 +3,7 @@
 Même présentation que kEYKODES. Le choix est mémorisé dans les QSettings de l'appli
 (clé « language », « auto » = langue du Mac).
 """
-from PyQt6.QtCore import QLocale, QSettings, Qt
+from PyQt6.QtCore import QCoreApplication, QLibraryInfo, QLocale, QSettings, Qt, QTranslator
 from PyQt6.QtGui import QActionGroup
 from PyQt6.QtWidgets import QMenu, QPushButton
 
@@ -19,10 +19,29 @@ def detect_system_lang() -> str:
     return i18n.system_lang(QLocale.system().uiLanguages())
 
 
+_qt_tr = None
+
+
+def qt_lang(code: str) -> None:
+    """Boutons standard de Qt (Oui/Non, Annuler, OK…) dans la langue de l'appli : traductions de Qt embarquées."""
+    global _qt_tr
+    app = QCoreApplication.instance()
+    if app is None:
+        return
+    if _qt_tr is not None:
+        app.removeTranslator(_qt_tr)
+        _qt_tr = None
+    if code != "en":
+        tr = QTranslator(app)
+        if tr.load(f"qtbase_{code}", QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)):
+            app.installTranslator(tr)
+            _qt_tr = tr
+
+
 def init_lang(settings: QSettings) -> None:
     """Active la langue mémorisée (à appeler avant de construire l'interface)."""
     choice = settings.value("language", AUTO)
-    i18n.set_lang(detect_system_lang() if choice == AUTO else choice)
+    qt_lang(i18n.set_lang(detect_system_lang() if choice == AUTO else choice))
 
 
 class LangButton(QPushButton):
@@ -68,6 +87,6 @@ class LangButton(QPushButton):
         picked = menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
         if picked is not None:
             self.settings.setValue("language", picked.data())
-            i18n.set_lang(detect_system_lang() if picked.data() == AUTO else picked.data())
+            qt_lang(i18n.set_lang(detect_system_lang() if picked.data() == AUTO else picked.data()))
             self.refresh()
             self.on_change()

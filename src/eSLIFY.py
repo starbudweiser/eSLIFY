@@ -3,15 +3,15 @@ import sys
 from pathlib import Path
 
 from PyQt6.QtCore import QSettings, Qt
-from PyQt6.QtGui import QBrush, QColor, QIcon
+from PyQt6.QtGui import QAction, QBrush, QColor, QIcon
 from PyQt6.QtWidgets import (
-    QAbstractItemView, QApplication, QCheckBox, QFileDialog, QFrame, QHBoxLayout, QLabel, QMessageBox,
+    QAbstractItemView, QApplication, QCheckBox, QFileDialog, QFrame, QHBoxLayout, QLabel, QMenuBar, QMessageBox,
     QPushButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget,
 )
 
 import eslify_core as core
 import socle_qt
-import update_check
+import updater
 from i18n import get_lang
 from i18n import L
 from lang_button import LangButton, init_lang
@@ -244,6 +244,12 @@ if __name__ == "__main__":
     init_lang(settings)
     w = ESLifyApp(settings)
     w.show()
-    update_check.start_qt(w, "eSLIFY", lang=get_lang)  # nouvelle version ? (au plus une fois par jour)
+    updates = updater.start_qt(w, "eSLIFY", lang=get_lang)  # nouvelle version ? (au plus une fois par jour)
+    menubar = QMenuBar()  # barre de menus macOS : « Rechercher les mises à jour… » dans le menu de l'appli
+    act = QAction(updater.texts(get_lang())["menu"], menubar)
+    act.setMenuRole(QAction.MenuRole.ApplicationSpecificRole)
+    act.triggered.connect(updates.check_manual)
+    menubar.addMenu(APP_NAME).addAction(act)
+    w._menubar = menubar
     w.add_paths(sys.argv[1:])
     sys.exit(app.exec())

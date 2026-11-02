@@ -2,6 +2,16 @@
 
 Notes de version / release notes (EN + FR). Translations in IT and ES: see the Nexus Mods page.
 
+## 1.3.1
+
+**English**
+
+- The standard buttons of dialogs (Yes/No, Cancel) now follow the app's language instead of staying in English.
+
+**Français**
+
+- Les boutons standard des dialogues (Oui/Non, Annuler) suivent maintenant la langue de l'appli au lieu de rester en anglais.
+
 ## 1.3.0
 
 **English**

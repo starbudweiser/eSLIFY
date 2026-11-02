@@ -35,7 +35,7 @@ if [ -x "$PYI_SRC" ]; then "$PYI_SRC" "$PY"; fi
 # le dépôt GitHub seul), signature ad hoc pour que l'appli se lance quand même.
 SIGN_APP="$(cd "$ROOT/.." && pwd)/_tools/sign_app.sh"
 if [ -x "$SIGN_APP" ]; then
-    "$SIGN_APP" "$TMP/dist/$APP_NAME.app" 1.3.0
+    "$SIGN_APP" "$TMP/dist/$APP_NAME.app" 1.3.1
 else
     echo "_tools/sign_app.sh absent : signature ad hoc."
     codesign --force --deep --sign - "$TMP/dist/$APP_NAME.app"

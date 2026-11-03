@@ -14,7 +14,7 @@ import socle_qt
 import updater
 from i18n import get_lang
 from i18n import L
-from lang_button import LangButton, init_lang
+from app_lang import init_lang, install_menu
 
 APP_NAME = "eSLIFY"
 EXTS = (".esp", ".esm", ".esl")
@@ -46,8 +46,6 @@ class ESLifyApp(QWidget):
         self.subtitle = socle_qt.role(QLabel(), "meta")
         hl.addWidget(self.subtitle)
         hh.addLayout(hl, 1)
-        self.btn_lang = LangButton(settings, self.apply_texts)
-        hh.addWidget(self.btn_lang, 0, Qt.AlignmentFlag.AlignTop)
         lay.addWidget(head)
 
         row = QHBoxLayout()
@@ -96,7 +94,6 @@ class ESLifyApp(QWidget):
 
     def apply_texts(self):
         """(Re)traduit l'interface dans la langue active ; les verdicts sont recalculés."""
-        self.btn_lang.refresh()
         self.subtitle.setText(L("Marque des plugins comme ESL (light master) après avoir vérifié leurs FormID."))
         self.btn_files.setText(L("Ajouter des plugins"))
         self.btn_dir.setText(L("Ajouter un dossier"))
@@ -243,6 +240,7 @@ if __name__ == "__main__":
     settings = QSettings(APP_NAME, APP_NAME)
     init_lang(settings)
     w = ESLifyApp(settings)
+    install_menu(w, settings, w.apply_texts)  # menu « Langue » de la barre de menus
     w.show()
     updater.start_qt(w, "eSLIFY", lang=get_lang)  # nouvelle version ? (au plus une fois par jour)
     w.add_paths(sys.argv[1:])

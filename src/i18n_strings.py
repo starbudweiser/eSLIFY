@@ -32,8 +32,6 @@ TR = {
         "Add or drag and drop .ESP, .ESM, .ESL files or a folder.",
         "Aggiungi o trascina file .ESP, .ESM, .ESL o una cartella.",
         "Añade o arrastra archivos .ESP, .ESM, .ESL o una carpeta."),
-    "Langue : {name}": ("Language: {name}", "Lingua: {name}", "Idioma: {name}"),
-    "Automatique ({lang})": ("Automatic ({lang})", "Automatica ({lang})", "Automático ({lang})"),
     # ------------------------------------------------------------ liste
     "Déjà ESL": ("Already ESL", "Già ESL", "Ya ESL"),
     "Éligible": ("Eligible", "Idoneo", "Apto"),

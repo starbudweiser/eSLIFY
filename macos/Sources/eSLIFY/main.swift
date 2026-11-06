@@ -26,7 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         window.backgroundColor = NSColor(Socle.C.bg)
         window.contentMinSize = NSSize(width: 640, height: 420)
         window.setContentSize(WINDOW_SIZE)
-        window.center()
+        window.socleCenter()
         // Essais en arrière-plan : ESLIFY_QUIET=1 lance l'appli sans prendre le focus
         if ProcessInfo.processInfo.environment["ESLIFY_QUIET"] != nil {
             window.orderBack(nil)

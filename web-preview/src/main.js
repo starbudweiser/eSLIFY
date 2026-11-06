@@ -1,10 +1,13 @@
 import "@socle/tokens.css";
 import "@socle/components/bundle.css";
 import "./style.css";
+import { L, setLang, systemLang } from "./i18n.js";
 import { checkEligibility, decide, samples, span } from "./eslify.js";
 
 const EXTS = [".esp", ".esm", ".esl"];
-const HINT = "Ajoutez ou glissez-déposez des fichiers .ESP, .ESM, .ESL ou un dossier.";
+// Langue : celle du navigateur (comme la langue du Mac dans l'appli), ou ?lang=en|fr|it|es
+setLang(new URLSearchParams(location.search).get("lang") || systemLang());
+const HINT = L("Ajoutez ou glissez-déposez des fichiers .ESP, .ESM, .ESL ou un dossier.");
 const $ = (id) => document.getElementById(id);
 
 const state = { results: [], selected: new Set(), anchor: null };
@@ -49,9 +52,9 @@ async function filesFromDrop(items) {
 
 // -- affichage
 function statusOf(r) {
-  if (r.alreadyEsl) return ["Déjà ESL", "st-muted"];
-  if (r.eligible) return ["Éligible", "st-success"];
-  return ["Non éligible", "st-danger"];
+  if (r.alreadyEsl) return [L("Déjà ESL"), "st-muted"];
+  if (r.eligible) return [L("Éligible"), "st-success"];
+  return [L("Non éligible"), "st-danger"];
 }
 
 function render() {
@@ -94,7 +97,7 @@ function targets() {
 function refreshButton() {
   const n = targets().length;
   $("apply").disabled = n === 0;
-  $("apply").textContent = n ? `MARQUER ESL (${n})` : "MARQUER ESL";
+  $("apply").textContent = n ? L("MARQUER ESL ({n})", { n }) : L("MARQUER ESL");
 }
 
 // -- sélection (clic, ⌘/Ctrl-clic, Maj-clic)
@@ -172,10 +175,9 @@ $("apply").onclick = async () => {
   const todo = targets();
   if (!todo.length) return;
   const keep = $("backup").checked;
-  const msg = `Marquer ${todo.length} plugin(s) comme ESL ?\n\n` + todo.slice(0, 15).map((r) => r.name).join("\n")
+  const msg = L("Marquer {n} plugin(s) comme ESL ?", { n: todo.length }) + "\n\n" + todo.slice(0, 15).map((r) => r.name).join("\n")
     + (todo.length > 15 ? "\n…" : "")
-    + (keep ? "\n\nUne copie .bak de chaque fichier est créée avant modification."
-      : "\n\nAucune copie de sauvegarde ne sera créée.");
+    + "\n\n" + (keep ? L("Une copie .bak de chaque fichier est créée avant modification.") : L("Aucune copie de sauvegarde ne sera créée."));
   if (!(await confirmDialog(msg))) return;
   for (const r of todo) {
     r.flags |= 0x0200;
@@ -184,7 +186,7 @@ $("apply").onclick = async () => {
   }
   render();
   $("reason").className = "reason success";
-  $("reason").textContent = `${todo.length} plugin(s) marqué(s) ESL (simulation : aucun fichier modifié).`;
+  $("reason").textContent = L("{n} plugin(s) marqué(s) ESL.", { n: todo.length }) + " (simulation)";
 };
 
 // -- thème
@@ -195,4 +197,15 @@ $("theme").onclick = () => {
   $("theme").textContent = light ? "Thème sombre" : "Thème clair";
 };
 
+$("reason").textContent = HINT;
 render();
+
+// -- textes fixes de la page (clés de i18n/strings.json)
+const fixed = {
+  ".header-bar .meta": "Marque des plugins comme ESL (light master) après avoir vérifié leurs FormID.",
+  "#add-files": "Ajouter des plugins", "#add-dir": "Ajouter un dossier", "#clear": "Vider la liste",
+  "th:nth-child(1)": "Plugin", "th:nth-child(2)": "Statut", "th:nth-child(3)": "Nouveaux enr.",
+  "th:nth-child(4)": "FormID propres", "th:nth-child(5)": "Dossier",
+};
+for (const [sel, key] of Object.entries(fixed)) document.querySelector(sel).textContent = L(key);
+document.querySelector("#backup-label").lastChild.textContent = "\n          " + L("Créer une copie de sauvegarde (.bak) avant modification") + "\n";

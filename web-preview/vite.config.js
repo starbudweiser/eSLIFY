@@ -8,6 +8,6 @@ export default defineConfig({
   resolve: { alias: { "@socle": SOCLE } },
   server: {
     port: Number(process.env.PORT) || 5173,
-    fs: { allow: [fileURLToPath(new URL(".", import.meta.url)), SOCLE] },
+    fs: { allow: [fileURLToPath(new URL(".", import.meta.url)), fileURLToPath(new URL("../i18n", import.meta.url)), SOCLE] },
   },
 });

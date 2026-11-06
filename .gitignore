@@ -26,3 +26,10 @@ logs/
 .env
 .env.*
 !.env.example
+
+# Notes de travail
+ETAT.md
+
+# Swift
+.build/
+.swiftpm/

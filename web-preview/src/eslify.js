@@ -1,3 +1,5 @@
+import { L } from "./i18n.js";
+
 // Portage JS de check_eligibility() (src/eslify_core.py) : lecture seule, rien n'est écrit.
 const FLAG_ESL = 0x0200;
 const ESL_MAX_OBJECT = 0xfff;
@@ -13,7 +15,7 @@ export function checkEligibility(name, folder, buffer) {
     minObject: null, maxObject: null, hedrVersion: 0, newCells: 0, eligible: false, reason: "" };
   const dv = new DataView(buffer);
   if (dv.byteLength < 24 || sig(dv, 0) !== "TES4") {
-    res.reason = "Ce n'est pas un plugin Skyrim (en-tête TES4 absent).";
+    res.reason = L("Ce n'est pas un plugin Skyrim (en-tête TES4 absent).");
     return res;
   }
   const size = dv.getUint32(4, true);
@@ -52,19 +54,16 @@ export function checkEligibility(name, folder, buffer) {
 export function decide(res) {
   res.eligible = false;
   if (res.alreadyEsl) {
-    res.reason = "Déjà marqué ESL.";
+    res.reason = L("Déjà marqué ESL.");
   } else if (res.newCells) {
-    res.reason = `Ajoute ${res.newCells} cellule(s) ou worldspace(s) : le jeu gère mal les nouvelles cellules `
-      + "d'un plugin ESL (modifications perdues, objets qui disparaissent).";
+    res.reason = L("Ajoute {n} cellule(s) ou worldspace(s) : le jeu gère mal les nouvelles cellules d'un plugin ESL (modifications perdues, objets qui disparaissent).", { n: res.newCells });
   } else if (res.maxObject !== null && res.maxObject > ESL_MAX_OBJECT) {
-    res.reason = `FormID propre trop élevé (${hex(res.maxObject, 6)} > ${hex(ESL_MAX_OBJECT, 3)}). `
-      + "Compactez les FormID dans xEdit avant de le marquer ESL.";
+    res.reason = L("FormID propre trop élevé ({max} > {limit}). Compactez les FormID dans xEdit avant de le marquer ESL.", { max: hex(res.maxObject, 6), limit: hex(ESL_MAX_OBJECT, 3) });
   } else if (res.minObject !== null && res.minObject < ESL_MIN_OBJECT_OLD && res.hedrVersion < HEDR_VERSION_171) {
-    res.reason = `FormID propre sous 0x800 (${hex(res.minObject, 6)}) avec un en-tête ${res.hedrVersion} : `
-      + "il faut un en-tête 1.71 (xEdit) pour que le jeu l'accepte.";
+    res.reason = L("FormID propre sous 0x800 ({min}) avec un en-tête {version} : il faut un en-tête 1.71 (xEdit) pour que le jeu l'accepte.", { min: hex(res.minObject, 6), version: res.hedrVersion });
   } else {
     res.eligible = true;
-    res.reason = "Éligible.";
+    res.reason = L("Éligible.");
   }
   return res;
 }

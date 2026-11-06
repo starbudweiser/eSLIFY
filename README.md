@@ -9,6 +9,10 @@
 
 💬 **Support & community:** [Discord](https://discord.gg/xdDVDPQsYs) · *Aide et communauté : [Discord](https://discord.gg/xdDVDPQsYs)*
 
+### About
+
+eSLIFY flags Skyrim plugins as ESL (light master) after checking that their FormIDs fit the light range. By Starbudweiser & Claude Code (Anthropic). MIT License, © 2026 Starbudweiser. Provided as is, without warranty of any kind. See **About eSLIFY** in the app menu.
+
 ---
 ## 🇬🇧 English
 
@@ -28,7 +32,7 @@ Light plugins (ESL-flagged) don't count toward the 254-plugin limit. But flaggin
 ### What's new in 1.3.0
 
 - Signed with a Developer ID and notarized by Apple: macOS now opens the app without a security warning.
-- The app's launcher is now compiled from source when the app is built, instead of using PyInstaller's generic prebuilt launcher, which antivirus scanners tend to flag. No change in features.
+- Rewritten as a native Swift app (no more Python/PyInstaller bundle, which antivirus scanners tend to flag). Same checks, same messages, same look.
 - The first letter of the app's name now uses the colour of its logo everywhere it appears.
 - Version number aligned across the Skyrim Mac Toolkit.
 
@@ -43,7 +47,7 @@ The app checks once a day whether a newer release exists on GitHub and offers to
 
 ### Requirements
 
-A Mac with **Apple Silicon** (M1 or later), **macOS 13 Ventura** or later. No Python, no Wine, no virtual machine needed.
+A Mac with **Apple Silicon** (M1 or later), **macOS 15 Sequoia** or later. No Python, no Wine, no virtual machine needed.
 
 ### Installation
 
@@ -63,7 +67,7 @@ Its own FormIDs are too high: compact them in xEdit first (Compact FormIDs for E
 
 ### Building from source
 
-Requires Python 3.12 with PyQt6 and PyInstaller. From the repository folder:
+Requires Xcode (Swift 6). From the repository folder:
 
 ```bash
 ./build_app.sh
@@ -93,7 +97,7 @@ Les plugins légers (drapeau ESL) ne comptent pas dans la limite de 254 plugins.
 ### Nouveautés de la 1.3.0
 
 - Signée avec un certificat Developer ID et notarisée par Apple : macOS ouvre désormais l'appli sans avertissement de sécurité.
-- Le lanceur de l'appli est maintenant compilé depuis les sources à la construction de l'appli, au lieu du lanceur générique précompilé de PyInstaller, souvent signalé par les antivirus. Aucun changement de fonctionnalités.
+- Réécrite en Swift natif (plus de paquet Python/PyInstaller, souvent signalé par les antivirus). Mêmes vérifications, mêmes messages, même aspect.
 - La première lettre du nom de l'appli prend la couleur de son logo partout où il est écrit.
 - Numéro de version commun à tout le Skyrim Mac Toolkit.
 
@@ -108,7 +112,7 @@ L'appli vérifie une fois par jour si une version plus récente existe sur GitHu
 
 ### Configuration requise
 
-Un Mac **Apple Silicon** (M1 ou plus récent), **macOS 13 Ventura** ou plus récent. Ni Python, ni Wine, ni machine virtuelle.
+Un Mac **Apple Silicon** (M1 ou plus récent), **macOS 15 Sequoia** ou plus récent. Ni Python, ni Wine, ni machine virtuelle.
 
 ### Installation
 
@@ -128,7 +132,7 @@ Ses FormID propres sont trop élevés : compactez-les d'abord dans xEdit (Compac
 
 ### Compiler depuis les sources
 
-Nécessite Python 3.12 avec PyQt6 et PyInstaller. Depuis le dossier du dépôt :
+Nécessite Xcode (Swift 6). Depuis le dossier du dépôt :
 
 ```bash
 ./build_app.sh

@@ -17,14 +17,14 @@ Notes de version / release notes (EN + FR). Translations in IT and ES: see the N
 **English**
 
 - Signed with a Developer ID and notarized by Apple: macOS now opens the app without a security warning.
-- The app's launcher is now compiled from source when the app is built, instead of using PyInstaller's generic prebuilt launcher, which antivirus scanners tend to flag. No change in features.
+- Rewritten as a native Swift app (no more Python/PyInstaller bundle, which antivirus scanners tend to flag). Same checks, same messages, same look.
 - The first letter of the app's name now uses the colour of its logo everywhere it appears.
 - Version number aligned across the Skyrim Mac Toolkit.
 
 **Français**
 
 - Signée avec un certificat Developer ID et notarisée par Apple : macOS ouvre désormais l'appli sans avertissement de sécurité.
-- Le lanceur de l'appli est maintenant compilé depuis les sources à la construction de l'appli, au lieu du lanceur générique précompilé de PyInstaller, souvent signalé par les antivirus. Aucun changement de fonctionnalités.
+- Réécrite en Swift natif (plus de paquet Python/PyInstaller, souvent signalé par les antivirus). Mêmes vérifications, mêmes messages, même aspect.
 - La première lettre du nom de l'appli prend la couleur de son logo partout où il est écrit.
 - Numéro de version commun à tout le Skyrim Mac Toolkit.
 

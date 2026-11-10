@@ -2,6 +2,8 @@
 
 # eSLIFY
 
+[![Listed on OpenMacApps](https://openmacapps.com/badge.svg)](https://openmacapps.com/apps/eslify/)
+
 **Flags Skyrim plugins as ESL (light master) — only after checking that it is safe.**  
 *Marque les plugins Skyrim comme ESL (light master) — seulement après avoir vérifié que c'est sans risque.*
 

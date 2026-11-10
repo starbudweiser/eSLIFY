@@ -2,29 +2,21 @@
 
 # eSLIFY
 
-[![Listed on OpenMacApps](https://openmacapps.com/badge.svg)](https://openmacapps.com/apps/eslify/)
+[![Listed on OpenMacApps](https://openmacapps.com/badge.svg)](https://openmacapps.com/apps/eslify/) [![Latest release](https://img.shields.io/github/v/release/starbudweiser/eSLIFY)](https://github.com/starbudweiser/eSLIFY/releases/latest) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-**Flags Skyrim plugins as ESL (light master) — only after checking that it is safe.**  
-*Marque les plugins Skyrim comme ESL (light master) — seulement après avoir vérifié que c'est sans risque.*
+**Flags Skyrim plugins as ESL (light master) — only after checking that it is safe.**
 
-🍏 **Native Mac app written in Swift, signed and notarized by Apple.** · *Appli Mac native écrite en Swift, signée et notarisée par Apple.*
+🇬🇧 English · 🇫🇷 [Français](#français)
 
-🇬🇧 [English](#-english) · 🇫🇷 [Français](#-français)
-
-💬 **Support & community:** [Discord](https://discord.gg/xdDVDPQsYs) · *Aide et communauté : [Discord](https://discord.gg/xdDVDPQsYs)*
-
-### About
+## About
 
 eSLIFY flags Skyrim plugins as ESL (light master) after checking that their FormIDs fit the light range. By Starbudweiser & Claude Code (Anthropic). MIT License, © 2026 Starbudweiser. Provided as is, without warranty of any kind. See **About eSLIFY** in the app menu.
 
----
-## 🇬🇧 English
-
-### What it does
+🍏 **Native Mac app written in Swift, signed and notarized by Apple.**
 
 Light plugins (ESL-flagged) don't count toward the 254-plugin limit. But flagging a plugin whose own FormIDs don't fit the light range breaks it. eSLIFY checks each plugin first (own FormIDs within 0x800–0xFFF, header version) and only flags the eligible ones, with a backup.
 
-### Features
+## Features
 
 - Add plugins or whole folders (drag and drop supported).
 - For each plugin: status (eligible, not eligible, already ESL), number of new records, range of own FormIDs.
@@ -40,14 +32,14 @@ Light plugins (ESL-flagged) don't count toward the 254-plugin limit. But flaggin
 - The first letter of the app's name now uses the colour of its logo everywhere it appears.
 - Version number aligned across the Skyrim Mac Toolkit.
 
-### Updates
-
-The app checks once a day whether a newer release exists on GitHub and offers to open the Nexus page, remind you later or skip that version. Nothing is downloaded or installed automatically. The full history is in [CHANGELOG.md](CHANGELOG.md).
-
 ### Screenshots
 
 ![Eligibility check of a whole Data folder](docs/screenshots/02_check.png)
 *Eligibility check of a whole Data folder*
+
+## Install
+
+**[Download the latest notarized release](https://github.com/starbudweiser/eSLIFY/releases/latest)** · requires **macOS 15 Sequoia** or later on Apple Silicon.
 
 ### Requirements
 
@@ -64,12 +56,11 @@ A Mac with **Apple Silicon** (M1 or later), **macOS 15 Sequoia** or later. Nativ
 2. Read the status of each plugin; select one to see the detailed reason.
 3. Keep **Create a backup copy** checked and click **FLAG ESL (n)**.
 
-### FAQ
+### Updates
 
-**A plugin is "Not eligible".**  
-Its own FormIDs are too high: compact them in xEdit first (Compact FormIDs for ESL), then try again.
+The app checks once a day whether a newer release exists on GitHub and offers to open the Nexus page, remind you later or skip that version. Nothing is downloaded or installed automatically. The full history is in [CHANGELOG.md](CHANGELOG.md).
 
-### Building from source
+## Build
 
 Requires Xcode (Swift 6). From the repository folder:
 
@@ -77,13 +68,32 @@ Requires Xcode (Swift 6). From the repository folder:
 ./build_app.sh
 ```
 
-### License
+## Languages
 
-Released under the **MIT License**: free to use, modify and share. Part of the **Skyrim Mac Toolkit**, a set of modding tools built for Skyrim players on Mac.
+English, French, Spanish and Italian. The app follows your Mac's preferred language automatically (English if it is none of these four).
+
+## Support
+
+💬 Help and community: [Skyrim Mac Toolkit Discord](https://discord.gg/jRS4rvynx6) · bug reports: [GitHub Issues](https://github.com/starbudweiser/eSLIFY/issues).
+
+### FAQ
+
+**A plugin is "Not eligible".**  
+Its own FormIDs are too high: compact them in xEdit first (Compact FormIDs for ESL), then try again.
+
+## License
+
+Released under the **MIT License**: free to use, modify and share. Part of the **Skyrim Mac Toolkit**, a set of modding tools built for Skyrim players on Mac. See [LICENSE](LICENSE).
 
 ---
 
-## 🇫🇷 Français
+## Français
+
+**Marque les plugins Skyrim comme ESL (light master) — seulement après avoir vérifié que c'est sans risque.**
+
+🍏 *Appli Mac native écrite en Swift, signée et notarisée par Apple.*
+
+💬 Aide et communauté : [Discord du Skyrim Mac Toolkit](https://discord.gg/jRS4rvynx6)
 
 ### À quoi ça sert
 

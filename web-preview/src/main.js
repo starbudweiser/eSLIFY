@@ -19,7 +19,7 @@ async function addFiles(files) {
   for (const f of files) {
     if (!isPlugin(f.name)) continue;
     const rel = f.webkitRelativePath || f.relativePath || "";
-    const folder = rel.includes("/") ? rel.slice(0, rel.lastIndexOf("/")) : "(fichier déposé)";
+    const folder = rel.includes("/") ? rel.slice(0, rel.lastIndexOf("/")) : L("(fichier déposé)");
     if (state.results.some((r) => r.name === f.name && r.folder === folder)) continue;
     let res;
     try {
@@ -27,7 +27,7 @@ async function addFiles(files) {
     } catch (e) { // fichier tronqué ou corrompu
       res = decide({ name: f.name, folder, newRecords: 0, minObject: null, maxObject: null });
       res.eligible = false;
-      res.reason = `Plugin illisible : ${e.message}.`;
+      res.reason = L("Plugin illisible : {err}.", { err: e.message });
     }
     state.results.push(res);
   }
@@ -83,7 +83,7 @@ function showReason() {
   el.className = "reason";
   if (state.selected.size === 1) {
     const r = state.results[[...state.selected][0]];
-    const extra = r.hedrVersion ? `  En-tête ${r.hedrVersion}, ${r.masters} maître(s).` : "";
+    const extra = r.hedrVersion ? "  " + L("En-tête {version}, {n} maître(s).", { version: r.hedrVersion, n: r.masters }) : "";
     el.textContent = `${r.name} : ${r.reason}${extra}`;
   }
 }
@@ -186,7 +186,7 @@ $("apply").onclick = async () => {
   }
   render();
   $("reason").className = "reason success";
-  $("reason").textContent = L("{n} plugin(s) marqué(s) ESL.", { n: todo.length }) + " (simulation)";
+  $("reason").textContent = L("{n} plugin(s) marqué(s) ESL.", { n: todo.length }) + " " + L("(simulation)");
 };
 
 // -- thème
@@ -194,7 +194,7 @@ $("theme").onclick = () => {
   const html = document.documentElement;
   const light = html.dataset.theme !== "light";
   html.dataset.theme = light ? "light" : "dark";
-  $("theme").textContent = light ? "Thème sombre" : "Thème clair";
+  $("theme").textContent = L(light ? "Thème sombre" : "Thème clair");
 };
 
 $("reason").textContent = HINT;
@@ -206,6 +206,8 @@ const fixed = {
   "#add-files": "Ajouter des plugins", "#add-dir": "Ajouter un dossier", "#clear": "Vider la liste",
   "th:nth-child(1)": "Plugin", "th:nth-child(2)": "Statut", "th:nth-child(3)": "Nouveaux enr.",
   "th:nth-child(4)": "FormID propres", "th:nth-child(5)": "Dossier",
+  ".stage-bar .sc-eyebrow": "Aperçu web", "#samples": "Charger des exemples", "#theme": "Thème clair",
+  ".stage-bar .stage-note": "Les plugins déposés sont analysés pour de vrai, en lecture seule. Aucun fichier n'est modifié.",
 };
 for (const [sel, key] of Object.entries(fixed)) document.querySelector(sel).textContent = L(key);
 document.querySelector("#backup-label").lastChild.textContent = "\n          " + L("Créer une copie de sauvegarde (.bak) avant modification") + "\n";

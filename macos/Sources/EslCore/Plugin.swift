@@ -25,13 +25,13 @@ public struct PluginError: Error, CustomStringConvertible {
 extension Data {
     /// Octets lus à `offset` (Data peut avoir un startIndex non nul) ; échoue si le fichier est tronqué.
     func u32(_ offset: Int) throws -> UInt32 {
-        guard offset >= 0, offset + 4 <= count else { throw PluginError("fichier tronqué (octet \(offset))") }
+        guard offset >= 0, offset + 4 <= count else { throw PluginError(L("fichier tronqué (octet {offset})", ["offset": offset])) }
         let i = startIndex + offset
         return UInt32(self[i]) | UInt32(self[i + 1]) << 8 | UInt32(self[i + 2]) << 16 | UInt32(self[i + 3]) << 24
     }
 
     func u16(_ offset: Int) throws -> UInt16 {
-        guard offset >= 0, offset + 2 <= count else { throw PluginError("fichier tronqué (octet \(offset))") }
+        guard offset >= 0, offset + 2 <= count else { throw PluginError(L("fichier tronqué (octet {offset})", ["offset": offset])) }
         let i = startIndex + offset
         return UInt16(self[i]) | UInt16(self[i + 1]) << 8
     }
